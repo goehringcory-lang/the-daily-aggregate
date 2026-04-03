@@ -1,0 +1,73 @@
+{
+  "site_title": "The Daily Aggregate",
+  "site_subtitle": "AI, World News, Liverpool FC, Science & Nature",
+
+  "sections": {
+    "ai_news": {
+      "title": "AI News",
+      "icon": "cpu",
+      "feeds": [
+        {"name": "MIT Technology Review - AI", "url": "https://www.technologyreview.com/feed/"},
+        {"name": "The Verge - AI", "url": "https://www.theverge.com/rss/ai-artificial-intelligence/index.xml"},
+        {"name": "Ars Technica - AI", "url": "https://feeds.arstechnica.com/arstechnica/technology-lab"},
+        {"name": "VentureBeat - AI", "url": "https://venturebeat.com/category/ai/feed/"},
+        {"name": "TechCrunch - AI", "url": "https://techcrunch.com/category/artificial-intelligence/feed/"}
+      ],
+      "max_items": 15
+    },
+
+    "world_news": {
+      "title": "World News",
+      "icon": "globe",
+      "feeds": [
+        {"name": "BBC World", "url": "https://feeds.bbci.co.uk/news/world/rss.xml"},
+        {"name": "The Guardian - World", "url": "https://www.theguardian.com/world/rss"},
+        {"name": "NPR News", "url": "https://feeds.npr.org/1001/rss.xml"},
+        {"name": "Al Jazeera", "url": "https://www.aljazeera.com/xml/rss/all.xml"}
+      ],
+      "max_items": 15
+    },
+
+    "liverpool": {
+      "title": "Liverpool FC",
+      "icon": "shield",
+      "feeds": [
+        {"name": "BBC Sport - Liverpool", "url": "https://feeds.bbci.co.uk/sport/football/teams/liverpool/rss.xml"},
+        {"name": "Liverpool Echo", "url": "https://www.liverpoolecho.co.uk/sport/football/football-news/?service=rss"},
+        {"name": "This Is Anfield", "url": "https://www.thisisanfield.com/feed/"},
+        {"name": "The Anfield Wrap", "url": "https://www.theanfieldwrap.com/feed/"}
+      ],
+      "max_items": 12
+    },
+
+    "ai_leaders_social": {
+      "title": "AI Leaders - Social",
+      "icon": "message-circle",
+      "bluesky_handles": [
+        {"name": "Yann LeCun", "handle": "yann-lecun.bsky.social"},
+        {"name": "Andrej Karpathy", "handle": "karpathy.bsky.social"},
+        {"name": "Fei-Fei Li", "handle": "drfeifei.bsky.social"},
+        {"name": "Gary Marcus", "handle": "garymarcus.bsky.social"},
+        {"name": "Emad Mostaque", "handle": "emad.bsky.social"}
+      ],
+      "max_posts_per_person": 3
+    },
+
+    "yosemite_science": {
+      "title": "Yosemite & Sierra Nevada - Nature Science",
+      "icon": "tree-pine",
+      "feeds": [
+        {"name": "Nature - Ecology & Evolution", "url": "https://www.nature.com/natecolevol.rss"},
+        {"name": "PLOS ONE - Ecology", "url": "https://journals.plos.org/plosone/feed/atom?subjectArea=Ecology"},
+        {"name": "Conservation Biology", "url": "https://besjournals.onlinelibrary.wiley.com/feed/13652486/most-recent"},
+        {"name": "Journal of Ecology", "url": "https://besjournals.onlinelibrary.wiley.com/feed/13652745/most-recent"},
+        {"name": "NPS - Yosemite News", "url": "https://www.nps.gov/feeds/getNewsRSS.htm?parkCode=yose"}
+      ],
+      "keywords": ["yosemite", "sierra nevada", "sequoia", "alpine meadow", "black bear",
+                    "mule deer", "bighorn sheep", "pacific fisher", "great gray owl",
+                    "peregrine falcon", "california", "wildflower", "lichen", "conifer",
+                    "glacial", "meadow restoration", "fire ecology", "old growth"],
+      "max_items": 15
+    }
+  }
+}
