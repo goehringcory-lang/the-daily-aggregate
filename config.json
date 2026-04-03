@@ -41,16 +41,24 @@
     },
 
     "ai_leaders_social": {
-      "title": "AI Leaders - Social",
+      "title": "AI Leaders & Labs - Social",
       "icon": "message-circle",
       "bluesky_handles": [
-        {"name": "Yann LeCun", "handle": "yann-lecun.bsky.social"},
-        {"name": "Andrej Karpathy", "handle": "karpathy.bsky.social"},
-        {"name": "Fei-Fei Li", "handle": "drfeifei.bsky.social"},
-        {"name": "Gary Marcus", "handle": "garymarcus.bsky.social"},
-        {"name": "Emad Mostaque", "handle": "emad.bsky.social"}
+        {"name": "Anthropic", "handle": "anthropic.com", "category": "lab"},
+        {"name": "Google DeepMind", "handle": "deepmind.bsky.social", "category": "lab"},
+
+        {"name": "Andrej Karpathy", "handle": "karpathy.bsky.social", "category": "leader"},
+        {"name": "Yann LeCun", "handle": "yann-lecun.bsky.social", "category": "leader"},
+        {"name": "Mustafa Suleyman", "handle": "mustafasuleymanai.bsky.social", "category": "leader"},
+        {"name": "Fei-Fei Li", "handle": "drfeifei.bsky.social", "category": "leader"},
+        {"name": "Gary Marcus", "handle": "garymarcus.bsky.social", "category": "leader"},
+        {"name": "Jeremy Howard", "handle": "howard.fm", "category": "leader"},
+
+        {"name": "Simon Willison", "handle": "simonwillison.net", "category": "commentator"},
+        {"name": "Ethan Mollick", "handle": "emollick.bsky.social", "category": "commentator"}
       ],
-      "max_posts_per_person": 3
+      "max_posts_per_person": 5,
+      "max_age_days": 30
     },
 
     "yosemite_science": {

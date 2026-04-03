@@ -482,6 +482,31 @@
             color: var(--text-muted);
             font-size: 0.78rem;
         }
+        .social-badge {
+            display: inline-block;
+            font-size: 0.6rem;
+            font-weight: 700;
+            padding: 1px 7px;
+            border-radius: 99px;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            margin-left: 6px;
+            vertical-align: middle;
+            position: relative;
+            top: -1px;
+        }
+        .social-badge-lab {
+            background: #ededfd;
+            color: var(--accent-ai);
+        }
+        .social-badge-leader {
+            background: #fef3c7;
+            color: #92400e;
+        }
+        .social-badge-commentator {
+            background: #e6f2fc;
+            color: var(--accent-social);
+        }
         .social-text {
             font-family: var(--font-serif);
             font-size: 0.92rem;
@@ -705,7 +730,7 @@
                             <div class="social-avatar-fallback">{{ post.author[0] }}</div>
                             {% endif %}
                             <div>
-                                <div class="social-author">{{ post.author }}</div>
+                                <div class="social-author">{{ post.author }}{% if post.category == "lab" %}<span class="social-badge social-badge-lab">Lab</span>{% elif post.category == "leader" %}<span class="social-badge social-badge-leader">Leader</span>{% elif post.category == "commentator" %}<span class="social-badge social-badge-commentator">Analyst</span>{% endif %}</div>
                                 <div class="social-handle">@{{ post.handle }}</div>
                             </div>
                         </div>
@@ -731,7 +756,7 @@
 
     <footer class="site-footer">
         <p><strong>{{ site_title }}</strong></p>
-        <p>A personal news aggregator built with RSS feeds &amp; Bluesky. Updated every 6 hours.</p>
+        <p>A personal news aggregator built with RSS feeds &amp; Bluesky. Updated every 30 minutes.</p>
     </footer>
 
     <button class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">&#8593;</button>

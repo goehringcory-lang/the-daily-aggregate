@@ -9,7 +9,7 @@ import json
 import re
 import sys
 import traceback
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 from pathlib import Path
 from html import escape
 
@@ -197,28 +197,68 @@ def fetch_section_with_keywords(section_cfg):
         return combined[:max_items]
 
 
+def is_likely_english(text):
+    """Simple heuristic: check if text is mostly ASCII/Latin characters."""
+    if not text:
+        return True
+    ascii_chars = sum(1 for c in text if ord(c) < 128 or c in 'àáâãäåèéêëìíîïòóôõöùúûüýÿñç')
+    return ascii_chars / len(text) > 0.7
+
+
 def fetch_bluesky_posts(section_cfg):
-    """Fetch recent posts from Bluesky handles."""
+    """Fetch recent posts from Bluesky handles, filtering by age and language."""
     handles = section_cfg.get("bluesky_handles", [])
-    max_per = section_cfg.get("max_posts_per_person", 3)
+    max_per = section_cfg.get("max_posts_per_person", 5)
+    max_age_days = section_cfg.get("max_age_days", 14)
+    cutoff = datetime.now(timezone.utc) - timedelta(days=max_age_days)
     all_posts = []
 
     for person in handles:
         handle = person["handle"]
         name = person["name"]
+        category = person.get("category", "leader")
         print(f"  Fetching Bluesky: @{handle}...")
         try:
+            # Fetch more than max_per to account for filtering
+            fetch_limit = max_per * 3
             url = f"{BLUESKY_API}/app.bsky.feed.getAuthorFeed"
-            resp = requests.get(url, params={"actor": handle, "limit": max_per, "filter": "posts_no_replies"},
+            resp = requests.get(url, params={"actor": handle, "limit": fetch_limit, "filter": "posts_no_replies"},
                                 timeout=REQUEST_TIMEOUT, headers={"User-Agent": USER_AGENT})
             resp.raise_for_status()
             data = resp.json()
 
-            for item in data.get("feed", [])[:max_per]:
+            person_posts = 0
+            for item in data.get("feed", []):
+                if person_posts >= max_per:
+                    break
+
                 post = item.get("post", {})
                 record = post.get("record", {})
                 text = record.get("text", "")
                 created = record.get("createdAt", "")
+
+                # Parse date and skip old posts
+                pub_date = None
+                if created:
+                    try:
+                        pub_date = dateparser.parse(created)
+                    except Exception:
+                        pass
+
+                if pub_date and pub_date < cutoff:
+                    continue
+
+                # Skip non-English posts
+                langs = record.get("langs", [])
+                if langs and "en" not in langs:
+                    continue
+                if not langs and not is_likely_english(text):
+                    continue
+
+                # Skip very short posts (likely just links or reactions)
+                if len(text.strip()) < 15:
+                    continue
+
                 uri = post.get("uri", "")
 
                 # Extract avatar
@@ -242,20 +282,13 @@ def fetch_bluesky_posts(section_cfg):
                 if uri.startswith("at://"):
                     parts = uri.replace("at://", "").split("/")
                     if len(parts) >= 3:
-                        did = parts[0]
                         rkey = parts[2]
                         web_url = f"https://bsky.app/profile/{handle}/post/{rkey}"
-
-                pub_date = None
-                if created:
-                    try:
-                        pub_date = dateparser.parse(created)
-                    except Exception:
-                        pass
 
                 all_posts.append({
                     "author": name,
                     "handle": handle,
+                    "category": category,
                     "text": text,
                     "link": web_url,
                     "image": post_image,
@@ -265,7 +298,8 @@ def fetch_bluesky_posts(section_cfg):
                     "likes": post.get("likeCount", 0),
                     "reposts": post.get("repostCount", 0),
                 })
-            print(f"    Got {min(max_per, len(data.get('feed', [])))} posts")
+                person_posts += 1
+            print(f"    Got {person_posts} posts (after filtering)")
         except Exception as e:
             print(f"    [WARN] Failed for @{handle}: {e}")
 
