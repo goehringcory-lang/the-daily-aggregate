@@ -4,331 +4,542 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ site_title }}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800&family=Inter:wght@300;400;500;600;700&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg: #0f1117;
-            --surface: #1a1d27;
-            --surface-hover: #232734;
-            --border: #2a2e3b;
-            --text: #e4e6ed;
-            --text-muted: #8b8fa3;
-            --accent-ai: #818cf8;
-            --accent-world: #34d399;
-            --accent-liverpool: #ef4444;
-            --accent-social: #38bdf8;
-            --accent-science: #a3e635;
-            --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            --font-serif: 'Georgia', 'Times New Roman', serif;
+            --bg: #f5f0eb;
+            --bg-warm: #ece5dc;
+            --surface: #ffffff;
+            --surface-alt: #faf8f5;
+            --border: #e0d8cf;
+            --border-light: #ede8e1;
+            --text: #1a1a1a;
+            --text-secondary: #555249;
+            --text-muted: #8a8278;
+            --accent-ai: #5046e5;
+            --accent-ai-light: #ededfd;
+            --accent-world: #0e7c5f;
+            --accent-world-light: #e6f5f0;
+            --accent-liverpool: #c8102e;
+            --accent-liverpool-light: #fde8ec;
+            --accent-social: #0070cc;
+            --accent-social-light: #e6f2fc;
+            --accent-science: #2d6a30;
+            --accent-science-light: #e8f5e9;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
+            --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+            --shadow-lg: 0 8px 30px rgba(0,0,0,0.1);
+            --radius: 12px;
+            --font-display: 'Playfair Display', Georgia, serif;
+            --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-serif: 'Source Serif 4', Georgia, serif;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: var(--font-sans);
+            font-family: var(--font-body);
             background: var(--bg);
             color: var(--text);
             line-height: 1.6;
-            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
         }
 
-        /* Header */
+        /* ── Header ── */
         .site-header {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 40%, #0f3460 100%);
+            color: #fff;
             text-align: center;
-            padding: 3rem 1rem 2rem;
-            border-bottom: 1px solid var(--border);
-            background: linear-gradient(180deg, #151822 0%, var(--bg) 100%);
+            padding: 4rem 1.5rem 3.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .site-header::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            opacity: 0.5;
         }
         .site-header h1 {
-            font-family: var(--font-serif);
-            font-size: 2.5rem;
-            font-weight: 700;
+            font-family: var(--font-display);
+            font-size: 3.2rem;
+            font-weight: 800;
             letter-spacing: -0.02em;
-            margin-bottom: 0.25rem;
+            margin-bottom: 0.3rem;
+            position: relative;
         }
         .site-header .subtitle {
-            color: var(--text-muted);
-            font-size: 0.95rem;
+            font-family: var(--font-serif);
+            font-size: 1.1rem;
+            opacity: 0.7;
+            font-weight: 300;
+            letter-spacing: 0.02em;
+            position: relative;
         }
         .site-header .updated {
-            color: var(--text-muted);
-            font-size: 0.8rem;
-            margin-top: 0.75rem;
-            opacity: 0.7;
+            font-size: 0.75rem;
+            opacity: 0.45;
+            margin-top: 1rem;
+            font-weight: 400;
+            position: relative;
+        }
+        .header-rule {
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, #e8a87c, #d4727a, #c15dbd);
+            margin: 1rem auto 0;
+            border-radius: 2px;
+            position: relative;
         }
 
-        /* Navigation */
+        /* ── Nav ── */
         .nav {
             display: flex;
             justify-content: center;
-            gap: 0.5rem;
-            padding: 1rem;
+            gap: 0.25rem;
+            padding: 0.75rem 1rem;
             flex-wrap: wrap;
-            border-bottom: 1px solid var(--border);
             background: var(--surface);
+            border-bottom: 1px solid var(--border-light);
             position: sticky;
             top: 0;
             z-index: 100;
+            box-shadow: var(--shadow-sm);
         }
         .nav a {
-            color: var(--text-muted);
+            color: var(--text-secondary);
             text-decoration: none;
-            padding: 0.4rem 1rem;
-            border-radius: 6px;
-            font-size: 0.85rem;
-            font-weight: 500;
-            transition: all 0.2s;
-        }
-        .nav a:hover {
-            background: var(--surface-hover);
-            color: var(--text);
-        }
-        .nav a[data-section="ai_news"] { border-left: 3px solid var(--accent-ai); }
-        .nav a[data-section="world_news"] { border-left: 3px solid var(--accent-world); }
-        .nav a[data-section="liverpool"] { border-left: 3px solid var(--accent-liverpool); }
-        .nav a[data-section="ai_leaders_social"] { border-left: 3px solid var(--accent-social); }
-        .nav a[data-section="yosemite_science"] { border-left: 3px solid var(--accent-science); }
-
-        /* Main grid */
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 2rem 1rem;
-        }
-
-        .section {
-            margin-bottom: 3rem;
-        }
-        .section-header {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            margin-bottom: 1.25rem;
-            padding-bottom: 0.75rem;
-            border-bottom: 2px solid var(--border);
-        }
-        .section-header h2 {
-            font-family: var(--font-serif);
-            font-size: 1.5rem;
+            padding: 0.5rem 1.1rem;
+            border-radius: 99px;
+            font-size: 0.82rem;
             font-weight: 600;
+            letter-spacing: 0.01em;
+            transition: all 0.25s;
+            position: relative;
         }
-        .section-dot {
-            width: 10px;
-            height: 10px;
+        .nav a:hover { background: var(--bg-warm); color: var(--text); }
+        .nav a .nav-dot {
+            display: inline-block;
+            width: 7px; height: 7px;
             border-radius: 50%;
-            flex-shrink: 0;
+            margin-right: 6px;
+            vertical-align: middle;
+            position: relative;
+            top: -1px;
         }
-        .section-count {
-            color: var(--text-muted);
-            font-size: 0.8rem;
-            margin-left: auto;
-        }
+        .nav a[data-section="ai_news"] .nav-dot { background: var(--accent-ai); }
+        .nav a[data-section="world_news"] .nav-dot { background: var(--accent-world); }
+        .nav a[data-section="liverpool"] .nav-dot { background: var(--accent-liverpool); }
+        .nav a[data-section="ai_leaders_social"] .nav-dot { background: var(--accent-social); }
+        .nav a[data-section="yosemite_science"] .nav-dot { background: var(--accent-science); }
 
-        /* News cards grid */
-        .news-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-            gap: 1rem;
+        /* ── Search ── */
+        .search-wrap {
+            max-width: 560px;
+            margin: 2rem auto 0;
+            padding: 0 1rem;
         }
-
-        .card {
+        .search-wrap input {
+            width: 100%;
+            padding: 0.85rem 1.2rem 0.85rem 3rem;
             background: var(--surface);
             border: 1px solid var(--border);
-            border-radius: 10px;
-            padding: 1.25rem;
-            transition: all 0.2s;
+            border-radius: 99px;
+            color: var(--text);
+            font-size: 0.9rem;
+            font-family: var(--font-body);
+            outline: none;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.25s;
+        }
+        .search-wrap input:focus {
+            border-color: var(--accent-ai);
+            box-shadow: 0 0 0 3px rgba(80,70,229,0.1);
+        }
+        .search-wrap .search-icon {
+            position: absolute;
+            left: 1.2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 1rem;
+        }
+        .search-wrap { position: relative; }
+
+        /* ── Container ── */
+        .container {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 2.5rem 1.5rem;
+        }
+
+        /* ── Section ── */
+        .section { margin-bottom: 4rem; }
+        .section-header {
+            display: flex;
+            align-items: baseline;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+        .section-header h2 {
+            font-family: var(--font-display);
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+        }
+        .section-header .section-line {
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+            position: relative;
+            top: -4px;
+        }
+        .section-header .section-count {
+            color: var(--text-muted);
+            font-size: 0.78rem;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        /* ── Hero card (first item with image) ── */
+        .hero-row {
+            display: grid;
+            grid-template-columns: 1.4fr 1fr;
+            gap: 1.25rem;
+            margin-bottom: 1.25rem;
+        }
+        .hero-card {
+            background: var(--surface);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            transition: all 0.3s;
+            display: flex;
+            flex-direction: column;
+        }
+        .hero-card:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-2px);
+        }
+        .hero-card .hero-img {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+            display: block;
+        }
+        .hero-card .hero-body {
+            padding: 1.5rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .hero-card .card-source {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 0.6rem;
+        }
+        .hero-card .card-title {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            font-weight: 700;
+            line-height: 1.3;
+            margin-bottom: 0.6rem;
+        }
+        .hero-card .card-title a { color: var(--text); text-decoration: none; }
+        .hero-card .card-title a:hover { text-decoration: underline; }
+        .hero-card .card-summary {
+            font-family: var(--font-serif);
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.65;
+            flex: 1;
+        }
+        .hero-card .card-meta {
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            margin-top: 0.75rem;
+            font-weight: 500;
+        }
+
+        /* ── Sidebar stack in hero row ── */
+        .hero-sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+        }
+        .sidebar-card {
+            background: var(--surface);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.3s;
+            display: flex;
+            flex-direction: row;
+        }
+        .sidebar-card:hover {
+            box-shadow: var(--shadow-md);
+            transform: translateY(-1px);
+        }
+        .sidebar-card .sidebar-img {
+            width: 140px;
+            min-height: 100%;
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+        .sidebar-card .sidebar-body {
+            padding: 1rem 1.15rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .sidebar-card .card-source {
+            font-size: 0.65rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 0.35rem;
+        }
+        .sidebar-card .card-title {
+            font-family: var(--font-display);
+            font-size: 1rem;
+            font-weight: 600;
+            line-height: 1.35;
+        }
+        .sidebar-card .card-title a { color: var(--text); text-decoration: none; }
+        .sidebar-card .card-title a:hover { text-decoration: underline; }
+        .sidebar-card .card-meta {
+            color: var(--text-muted);
+            font-size: 0.7rem;
+            margin-top: 0.4rem;
+            font-weight: 500;
+        }
+
+        /* ── Standard news grid ── */
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.25rem;
+        }
+        .card {
+            background: var(--surface);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.3s;
             display: flex;
             flex-direction: column;
         }
         .card:hover {
-            background: var(--surface-hover);
-            border-color: #3a3e4b;
-            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
         }
-        .card-source {
-            font-size: 0.75rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            margin-bottom: 0.5rem;
+        .card-img {
+            width: 100%;
+            height: 190px;
+            object-fit: cover;
+            display: block;
         }
-        .card-title {
-            font-size: 1rem;
-            font-weight: 600;
-            line-height: 1.4;
-            margin-bottom: 0.5rem;
+        .card-img-placeholder {
+            width: 100%;
+            height: 6px;
+            display: block;
         }
-        .card-title a {
-            color: var(--text);
-            text-decoration: none;
-        }
-        .card-title a:hover {
-            text-decoration: underline;
-        }
-        .card-summary {
-            color: var(--text-muted);
-            font-size: 0.85rem;
-            line-height: 1.5;
-            flex-grow: 1;
-            margin-bottom: 0.75rem;
-        }
-        .card-meta {
-            color: var(--text-muted);
-            font-size: 0.75rem;
+        .card-body {
+            padding: 1.15rem 1.25rem 1.25rem;
+            flex: 1;
             display: flex;
-            align-items: center;
-            gap: 0.5rem;
+            flex-direction: column;
+        }
+        .card .card-source {
+            font-size: 0.68rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 0.45rem;
+        }
+        .card .card-title {
+            font-family: var(--font-display);
+            font-size: 1.1rem;
+            font-weight: 700;
+            line-height: 1.35;
+            margin-bottom: 0.45rem;
+        }
+        .card .card-title a { color: var(--text); text-decoration: none; }
+        .card .card-title a:hover { text-decoration: underline; }
+        .card .card-summary {
+            font-family: var(--font-serif);
+            color: var(--text-secondary);
+            font-size: 0.88rem;
+            line-height: 1.6;
+            flex: 1;
+        }
+        .card .card-meta {
+            color: var(--text-muted);
+            font-size: 0.72rem;
+            margin-top: 0.75rem;
+            font-weight: 500;
         }
         .card-relevance {
+            display: inline-block;
             background: var(--accent-science);
-            color: #000;
-            font-size: 0.65rem;
+            color: #fff;
+            font-size: 0.6rem;
             font-weight: 700;
-            padding: 2px 6px;
-            border-radius: 4px;
+            padding: 2px 8px;
+            border-radius: 99px;
             text-transform: uppercase;
+            letter-spacing: 0.04em;
+            margin-left: 0.5rem;
+            vertical-align: middle;
         }
 
-        /* Social cards */
+        /* Section accent colors */
+        .section-ai_news .card-source,
+        .section-ai_news .hero-card .card-source { color: var(--accent-ai); }
+        .section-ai_news .card-img-placeholder { background: linear-gradient(90deg, var(--accent-ai), #818cf8); }
+
+        .section-world_news .card-source,
+        .section-world_news .hero-card .card-source { color: var(--accent-world); }
+        .section-world_news .card-img-placeholder { background: linear-gradient(90deg, var(--accent-world), #34d399); }
+
+        .section-liverpool .card-source,
+        .section-liverpool .hero-card .card-source { color: var(--accent-liverpool); }
+        .section-liverpool .card-img-placeholder { background: linear-gradient(90deg, var(--accent-liverpool), #f87171); }
+
+        .section-yosemite_science .card-source,
+        .section-yosemite_science .hero-card .card-source { color: var(--accent-science); }
+        .section-yosemite_science .card-img-placeholder { background: linear-gradient(90deg, var(--accent-science), #66bb6a); }
+
+        /* ── Social cards ── */
         .social-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
-            gap: 1rem;
+            gap: 1.25rem;
         }
         .social-card {
             background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            padding: 1.25rem;
-            transition: all 0.2s;
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.3s;
+            display: flex;
+            flex-direction: column;
         }
         .social-card:hover {
-            background: var(--surface-hover);
-            border-color: #3a3e4b;
+            box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
+        }
+        .social-card-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            display: block;
+        }
+        .social-card-body {
+            padding: 1.25rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
         }
         .social-header {
             display: flex;
             align-items: center;
             gap: 0.75rem;
-            margin-bottom: 0.75rem;
+            margin-bottom: 0.85rem;
         }
         .social-avatar {
-            width: 40px;
-            height: 40px;
+            width: 44px;
+            height: 44px;
             border-radius: 50%;
-            background: var(--accent-social);
+            object-fit: cover;
+            flex-shrink: 0;
+            border: 2px solid var(--border-light);
+        }
+        .social-avatar-fallback {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-social), #6366f1);
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 700;
-            font-size: 1rem;
-            color: #000;
+            font-size: 1.1rem;
+            color: #fff;
             flex-shrink: 0;
         }
         .social-author {
-            font-weight: 600;
-            font-size: 0.95rem;
+            font-weight: 700;
+            font-size: 0.92rem;
         }
         .social-handle {
             color: var(--text-muted);
-            font-size: 0.8rem;
+            font-size: 0.78rem;
         }
         .social-text {
-            font-size: 0.9rem;
-            line-height: 1.6;
-            margin-bottom: 0.75rem;
+            font-family: var(--font-serif);
+            font-size: 0.92rem;
+            line-height: 1.65;
+            color: var(--text-secondary);
+            flex: 1;
             white-space: pre-wrap;
             word-break: break-word;
-        }
-        .social-text a {
-            color: var(--accent-social);
-            text-decoration: none;
+            margin-bottom: 0.85rem;
         }
         .social-meta {
             display: flex;
             align-items: center;
             gap: 1.25rem;
             color: var(--text-muted);
-            font-size: 0.8rem;
+            font-size: 0.78rem;
+            font-weight: 500;
+            border-top: 1px solid var(--border-light);
+            padding-top: 0.85rem;
         }
-        .social-stat {
-            display: flex;
-            align-items: center;
-            gap: 0.3rem;
+        .social-stat { display: flex; align-items: center; gap: 0.3rem; }
+        .social-meta a {
+            color: var(--accent-social);
+            text-decoration: none;
+            margin-left: auto;
+            font-weight: 600;
         }
+        .social-meta a:hover { text-decoration: underline; }
 
-        /* Section accent colors */
-        .section-ai_news .section-dot { background: var(--accent-ai); }
-        .section-ai_news .card-source { color: var(--accent-ai); }
-        .section-world_news .section-dot { background: var(--accent-world); }
-        .section-world_news .card-source { color: var(--accent-world); }
-        .section-liverpool .section-dot { background: var(--accent-liverpool); }
-        .section-liverpool .card-source { color: var(--accent-liverpool); }
-        .section-ai_leaders_social .section-dot { background: var(--accent-social); }
-        .section-yosemite_science .section-dot { background: var(--accent-science); }
-        .section-yosemite_science .card-source { color: var(--accent-science); }
-
-        /* Empty state */
+        /* ── Empty state ── */
         .empty-state {
             text-align: center;
-            padding: 3rem;
+            padding: 4rem 2rem;
             color: var(--text-muted);
+            font-family: var(--font-serif);
             font-style: italic;
+            font-size: 1rem;
+            background: var(--surface);
+            border-radius: var(--radius);
         }
 
-        /* Footer */
+        /* ── Footer ── */
         .site-footer {
             text-align: center;
-            padding: 2rem 1rem;
+            padding: 3rem 1rem;
             border-top: 1px solid var(--border);
             color: var(--text-muted);
             font-size: 0.8rem;
+            line-height: 1.8;
         }
 
-        /* Filter / search */
-        .search-bar {
-            max-width: 500px;
-            margin: 1.5rem auto;
-            position: relative;
-        }
-        .search-bar input {
-            width: 100%;
-            padding: 0.75rem 1rem 0.75rem 2.5rem;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            color: var(--text);
-            font-size: 0.9rem;
-            outline: none;
-        }
-        .search-bar input:focus {
-            border-color: var(--accent-ai);
-        }
-        .search-bar .search-icon {
-            position: absolute;
-            left: 0.85rem;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--text-muted);
-            font-size: 0.9rem;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .site-header h1 { font-size: 1.75rem; }
-            .news-grid, .social-grid {
-                grid-template-columns: 1fr;
-            }
-            .nav { gap: 0.25rem; }
-            .nav a { font-size: 0.75rem; padding: 0.3rem 0.6rem; }
-        }
-
-        /* Scroll to top */
+        /* ── Scroll to top ── */
         .scroll-top {
             position: fixed;
             bottom: 2rem;
             right: 2rem;
-            width: 40px;
-            height: 40px;
+            width: 44px;
+            height: 44px;
             border-radius: 50%;
             background: var(--surface);
             border: 1px solid var(--border);
@@ -339,10 +550,28 @@
             justify-content: center;
             font-size: 1.2rem;
             z-index: 50;
-            transition: all 0.2s;
+            box-shadow: var(--shadow-md);
+            transition: all 0.25s;
         }
-        .scroll-top:hover {
-            background: var(--surface-hover);
+        .scroll-top:hover { background: var(--bg-warm); transform: translateY(-2px); }
+
+        /* ── Responsive ── */
+        @media (max-width: 900px) {
+            .hero-row { grid-template-columns: 1fr; }
+            .hero-sidebar { flex-direction: row; overflow-x: auto; }
+            .sidebar-card { min-width: 300px; }
+        }
+        @media (max-width: 768px) {
+            .site-header h1 { font-size: 2.2rem; }
+            .site-header { padding: 3rem 1rem 2.5rem; }
+            .news-grid, .social-grid { grid-template-columns: 1fr; }
+            .nav { gap: 0.15rem; }
+            .nav a { font-size: 0.75rem; padding: 0.4rem 0.75rem; }
+            .section-header h2 { font-size: 1.5rem; }
+            .hero-card .hero-img { height: 200px; }
+            .hero-card .card-title { font-size: 1.25rem; }
+            .hero-sidebar { flex-direction: column; }
+            .sidebar-card { min-width: unset; }
         }
     </style>
 </head>
@@ -351,123 +580,142 @@
     <header class="site-header">
         <h1>{{ site_title }}</h1>
         <p class="subtitle">{{ site_subtitle }}</p>
+        <div class="header-rule"></div>
         <p class="updated">Last updated: {{ last_updated }}</p>
     </header>
 
     <nav class="nav">
-        <a href="#ai_news" data-section="ai_news">AI News</a>
-        <a href="#world_news" data-section="world_news">World News</a>
-        <a href="#liverpool" data-section="liverpool">Liverpool FC</a>
-        <a href="#ai_leaders_social" data-section="ai_leaders_social">AI Leaders</a>
-        <a href="#yosemite_science" data-section="yosemite_science">Nature Science</a>
+        <a href="#ai_news" data-section="ai_news"><span class="nav-dot"></span>AI News</a>
+        <a href="#world_news" data-section="world_news"><span class="nav-dot"></span>World News</a>
+        <a href="#liverpool" data-section="liverpool"><span class="nav-dot"></span>Liverpool FC</a>
+        <a href="#ai_leaders_social" data-section="ai_leaders_social"><span class="nav-dot"></span>AI Leaders</a>
+        <a href="#yosemite_science" data-section="yosemite_science"><span class="nav-dot"></span>Nature Science</a>
     </nav>
 
-    <div class="search-bar">
+    <div class="search-wrap">
         <span class="search-icon">&#128269;</span>
-        <input type="text" id="searchInput" placeholder="Filter headlines..." oninput="filterCards()">
+        <input type="text" id="searchInput" placeholder="Search all headlines..." oninput="filterCards()">
     </div>
 
     <main class="container">
 
-        <!-- AI News -->
-        <section id="ai_news" class="section section-ai_news">
+        {# ── MACRO: Render a news section with hero layout ── #}
+        {% macro render_news_section(id, section_cfg, items, accent) %}
+        <section id="{{ id }}" class="section section-{{ id }}">
             <div class="section-header">
-                <div class="section-dot"></div>
-                <h2>{{ sections.ai_news.title }}</h2>
-                <span class="section-count">{{ data.ai_news | length }} stories</span>
+                <h2>{{ section_cfg.title }}</h2>
+                <div class="section-line"></div>
+                <span class="section-count">{{ items | length }} stories</span>
             </div>
-            {% if data.ai_news %}
-            <div class="news-grid">
-                {% for item in data.ai_news %}
-                <div class="card" data-searchable="{{ item.title | lower }} {{ item.summary | lower }} {{ item.source | lower }}">
-                    <div class="card-source">{{ item.source }}</div>
-                    <div class="card-title"><a href="{{ item.link }}" target="_blank" rel="noopener">{{ item.title }}</a></div>
-                    {% if item.summary %}<div class="card-summary">{{ item.summary }}</div>{% endif %}
-                    <div class="card-meta">
-                        <span>{{ item.date_display }}</span>
-                    </div>
-                </div>
-                {% endfor %}
-            </div>
-            {% else %}
-            <div class="empty-state">No AI news available at this time.</div>
-            {% endif %}
-        </section>
 
-        <!-- World News -->
-        <section id="world_news" class="section section-world_news">
-            <div class="section-header">
-                <div class="section-dot"></div>
-                <h2>{{ sections.world_news.title }}</h2>
-                <span class="section-count">{{ data.world_news | length }} stories</span>
-            </div>
-            {% if data.world_news %}
-            <div class="news-grid">
-                {% for item in data.world_news %}
-                <div class="card" data-searchable="{{ item.title | lower }} {{ item.summary | lower }} {{ item.source | lower }}">
-                    <div class="card-source">{{ item.source }}</div>
-                    <div class="card-title"><a href="{{ item.link }}" target="_blank" rel="noopener">{{ item.title }}</a></div>
-                    {% if item.summary %}<div class="card-summary">{{ item.summary }}</div>{% endif %}
-                    <div class="card-meta">
-                        <span>{{ item.date_display }}</span>
-                    </div>
-                </div>
+            {% if items %}
+                {# Split: hero = first item with image, sidebar = next 2-3 with images, rest = grid #}
+                {% set ns = namespace(hero=none, sidebar=[], grid=[]) %}
+                {% for item in items %}
+                    {% if ns.hero is none and item.image %}
+                        {% set ns.hero = item %}
+                    {% elif ns.sidebar | length < 3 and item.image %}
+                        {% set _ = ns.sidebar.append(item) %}
+                    {% else %}
+                        {% set _ = ns.grid.append(item) %}
+                    {% endif %}
                 {% endfor %}
-            </div>
-            {% else %}
-            <div class="empty-state">No world news available at this time.</div>
-            {% endif %}
-        </section>
 
-        <!-- Liverpool FC -->
-        <section id="liverpool" class="section section-liverpool">
-            <div class="section-header">
-                <div class="section-dot"></div>
-                <h2>{{ sections.liverpool.title }}</h2>
-                <span class="section-count">{{ data.liverpool | length }} stories</span>
-            </div>
-            {% if data.liverpool %}
-            <div class="news-grid">
-                {% for item in data.liverpool %}
-                <div class="card" data-searchable="{{ item.title | lower }} {{ item.summary | lower }} {{ item.source | lower }}">
-                    <div class="card-source">{{ item.source }}</div>
-                    <div class="card-title"><a href="{{ item.link }}" target="_blank" rel="noopener">{{ item.title }}</a></div>
-                    {% if item.summary %}<div class="card-summary">{{ item.summary }}</div>{% endif %}
-                    <div class="card-meta">
-                        <span>{{ item.date_display }}</span>
+                {% if ns.hero %}
+                <div class="hero-row" data-searchable="{{ ns.hero.title | lower }} {{ ns.hero.summary | lower }} {{ ns.hero.source | lower }}">
+                    <div class="hero-card">
+                        <img class="hero-img" src="{{ ns.hero.image }}" alt="" loading="lazy" onerror="this.style.display='none'">
+                        <div class="hero-body">
+                            <div class="card-source">{{ ns.hero.source }}</div>
+                            <div class="card-title"><a href="{{ ns.hero.link }}" target="_blank" rel="noopener">{{ ns.hero.title }}</a></div>
+                            {% if ns.hero.summary %}<div class="card-summary">{{ ns.hero.summary }}</div>{% endif %}
+                            <div class="card-meta">{{ ns.hero.date_display }}</div>
+                        </div>
                     </div>
+                    {% if ns.sidebar %}
+                    <div class="hero-sidebar">
+                        {% for item in ns.sidebar %}
+                        <div class="sidebar-card" data-searchable="{{ item.title | lower }} {{ item.source | lower }}">
+                            {% if item.image %}<img class="sidebar-img" src="{{ item.image }}" alt="" loading="lazy" onerror="this.parentElement.querySelector('.sidebar-body').style.flex='1';this.style.display='none'">{% endif %}
+                            <div class="sidebar-body">
+                                <div class="card-source">{{ item.source }}</div>
+                                <div class="card-title"><a href="{{ item.link }}" target="_blank" rel="noopener">{{ item.title }}</a></div>
+                                <div class="card-meta">{{ item.date_display }}</div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
                 </div>
-                {% endfor %}
-            </div>
+                {% endif %}
+
+                {% if ns.grid %}
+                <div class="news-grid">
+                    {% for item in ns.grid %}
+                    <div class="card" data-searchable="{{ item.title | lower }} {{ item.summary | lower }} {{ item.source | lower }}">
+                        {% if item.image %}
+                        <img class="card-img" src="{{ item.image }}" alt="" loading="lazy" onerror="this.outerHTML='<div class=\'card-img-placeholder\'></div>'">
+                        {% else %}
+                        <div class="card-img-placeholder"></div>
+                        {% endif %}
+                        <div class="card-body">
+                            <div class="card-source">
+                                {{ item.source }}
+                                {% if item.relevance is defined and item.relevance > 0 %}
+                                <span class="card-relevance">Yosemite Related</span>
+                                {% endif %}
+                            </div>
+                            <div class="card-title"><a href="{{ item.link }}" target="_blank" rel="noopener">{{ item.title }}</a></div>
+                            {% if item.summary %}<div class="card-summary">{{ item.summary }}</div>{% endif %}
+                            <div class="card-meta">{{ item.date_display }}</div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
             {% else %}
-            <div class="empty-state">No Liverpool FC news available at this time.</div>
+            <div class="empty-state">No stories available at this time.</div>
             {% endif %}
         </section>
+        {% endmacro %}
+
+        {{ render_news_section("ai_news", sections.ai_news, data.ai_news, "ai") }}
+        {{ render_news_section("world_news", sections.world_news, data.world_news, "world") }}
+        {{ render_news_section("liverpool", sections.liverpool, data.liverpool, "liverpool") }}
 
         <!-- AI Leaders Social -->
         <section id="ai_leaders_social" class="section section-ai_leaders_social">
             <div class="section-header">
-                <div class="section-dot"></div>
                 <h2>{{ sections.ai_leaders_social.title }}</h2>
+                <div class="section-line"></div>
                 <span class="section-count">{{ data.ai_leaders_social | length }} posts</span>
             </div>
             {% if data.ai_leaders_social %}
             <div class="social-grid">
                 {% for post in data.ai_leaders_social %}
                 <div class="social-card" data-searchable="{{ post.author | lower }} {{ post.text | lower }}">
-                    <div class="social-header">
-                        <div class="social-avatar">{{ post.author[0] }}</div>
-                        <div>
-                            <div class="social-author">{{ post.author }}</div>
-                            <div class="social-handle">@{{ post.handle }}</div>
+                    {% if post.image %}
+                    <img class="social-card-image" src="{{ post.image }}" alt="" loading="lazy" onerror="this.style.display='none'">
+                    {% endif %}
+                    <div class="social-card-body">
+                        <div class="social-header">
+                            {% if post.avatar %}
+                            <img class="social-avatar" src="{{ post.avatar }}" alt="{{ post.author }}" onerror="this.outerHTML='<div class=\'social-avatar-fallback\'>{{ post.author[0] }}</div>'">
+                            {% else %}
+                            <div class="social-avatar-fallback">{{ post.author[0] }}</div>
+                            {% endif %}
+                            <div>
+                                <div class="social-author">{{ post.author }}</div>
+                                <div class="social-handle">@{{ post.handle }}</div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="social-text">{{ post.text }}</div>
-                    <div class="social-meta">
-                        <span class="social-stat">&#9829; {{ post.likes }}</span>
-                        <span class="social-stat">&#8635; {{ post.reposts }}</span>
-                        <span>{{ post.date_display }}</span>
-                        <a href="{{ post.link }}" target="_blank" rel="noopener" style="color: var(--accent-social); text-decoration: none; margin-left: auto;">View on Bluesky &rarr;</a>
+                        <div class="social-text">{{ post.text }}</div>
+                        <div class="social-meta">
+                            <span class="social-stat">&#9829; {{ post.likes }}</span>
+                            <span class="social-stat">&#8635; {{ post.reposts }}</span>
+                            <span>{{ post.date_display }}</span>
+                            <a href="{{ post.link }}" target="_blank" rel="noopener">View &rarr;</a>
+                        </div>
                     </div>
                 </div>
                 {% endfor %}
@@ -477,70 +725,32 @@
             {% endif %}
         </section>
 
-        <!-- Yosemite Science -->
-        <section id="yosemite_science" class="section section-yosemite_science">
-            <div class="section-header">
-                <div class="section-dot"></div>
-                <h2>{{ sections.yosemite_science.title }}</h2>
-                <span class="section-count">{{ data.yosemite_science | length }} articles</span>
-            </div>
-            {% if data.yosemite_science %}
-            <div class="news-grid">
-                {% for item in data.yosemite_science %}
-                <div class="card" data-searchable="{{ item.title | lower }} {{ item.summary | lower }} {{ item.source | lower }}">
-                    <div class="card-source">
-                        {{ item.source }}
-                        {% if item.relevance is defined and item.relevance > 0 %}
-                        <span class="card-relevance">Yosemite Relevant</span>
-                        {% endif %}
-                    </div>
-                    <div class="card-title"><a href="{{ item.link }}" target="_blank" rel="noopener">{{ item.title }}</a></div>
-                    {% if item.summary %}<div class="card-summary">{{ item.summary }}</div>{% endif %}
-                    <div class="card-meta">
-                        <span>{{ item.date_display }}</span>
-                    </div>
-                </div>
-                {% endfor %}
-            </div>
-            {% else %}
-            <div class="empty-state">No science articles available at this time.</div>
-            {% endif %}
-        </section>
+        {{ render_news_section("yosemite_science", sections.yosemite_science, data.yosemite_science, "science") }}
 
     </main>
 
     <footer class="site-footer">
-        <p>{{ site_title }} &mdash; A personal news aggregator</p>
-        <p>Built with RSS feeds &amp; Bluesky public API. Updated every 6 hours via GitHub Actions.</p>
+        <p><strong>{{ site_title }}</strong></p>
+        <p>A personal news aggregator built with RSS feeds &amp; Bluesky. Updated every 6 hours.</p>
     </footer>
 
     <button class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">&#8593;</button>
 
     <script>
-        // Filter cards by search input
         function filterCards() {
             const query = document.getElementById('searchInput').value.toLowerCase();
-            const cards = document.querySelectorAll('[data-searchable]');
-            cards.forEach(card => {
-                const text = card.getAttribute('data-searchable');
-                card.style.display = text.includes(query) ? '' : 'none';
+            document.querySelectorAll('[data-searchable]').forEach(el => {
+                el.style.display = el.getAttribute('data-searchable').includes(query) ? '' : 'none';
             });
         }
-
-        // Scroll to top button
         window.addEventListener('scroll', () => {
-            const btn = document.getElementById('scrollTop');
-            btn.style.display = window.scrollY > 500 ? 'flex' : 'none';
+            document.getElementById('scrollTop').style.display = window.scrollY > 500 ? 'flex' : 'none';
         });
-
-        // Smooth scroll for nav links
         document.querySelectorAll('.nav a').forEach(link => {
             link.addEventListener('click', e => {
                 e.preventDefault();
-                const target = document.querySelector(link.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
+                const t = document.querySelector(link.getAttribute('href'));
+                if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
             });
         });
     </script>

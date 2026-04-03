@@ -33,6 +33,52 @@ def load_config():
         return json.load(f)
 
 
+def extract_image(entry, summary_html):
+    """Extract the best image URL from an RSS entry."""
+    # 1. media:content or media:thumbnail
+    media = getattr(entry, "media_content", None)
+    if media:
+        for m in media:
+            url = m.get("url", "")
+            if url and any(ext in url.lower() for ext in (".jpg", ".jpeg", ".png", ".webp", ".gif")):
+                return url
+            if url and m.get("medium") == "image":
+                return url
+
+    media_thumb = getattr(entry, "media_thumbnail", None)
+    if media_thumb:
+        for m in media_thumb:
+            url = m.get("url", "")
+            if url:
+                return url
+
+    # 2. enclosures
+    enclosures = getattr(entry, "enclosures", [])
+    for enc in enclosures:
+        if enc.get("type", "").startswith("image/"):
+            return enc.get("href") or enc.get("url", "")
+
+    # 3. Parse <img> from summary or content HTML
+    content_html = summary_html
+    content_detail = getattr(entry, "content", None)
+    if content_detail and isinstance(content_detail, list):
+        content_html = content_detail[0].get("value", "") + content_html
+
+    img_match = re.search(r'<img[^>]+src=["\']([^"\']+)["\']', content_html)
+    if img_match:
+        url = img_match.group(1)
+        if url.startswith("http"):
+            return url
+
+    # 4. og:image style links field
+    links = getattr(entry, "links", [])
+    for link in links:
+        if link.get("type", "").startswith("image/"):
+            return link.get("href", "")
+
+    return ""
+
+
 def fetch_feed(feed_info):
     """Fetch and parse a single RSS/Atom feed."""
     url = feed_info["url"]
@@ -62,8 +108,11 @@ def fetch_feed(feed_info):
                             pass
                         break
 
-            summary = getattr(entry, "summary", "") or ""
-            summary = re.sub(r"<[^>]+>", "", summary).strip()
+            summary_html = getattr(entry, "summary", "") or ""
+            # Extract image from summary/content HTML before stripping tags
+            image = extract_image(entry, summary_html)
+
+            summary = re.sub(r"<[^>]+>", "", summary_html).strip()
             if len(summary) > 300:
                 summary = summary[:297] + "..."
 
@@ -71,6 +120,7 @@ def fetch_feed(feed_info):
                 "title": getattr(entry, "title", "Untitled"),
                 "link": getattr(entry, "link", "#"),
                 "summary": summary,
+                "image": image,
                 "source": name,
                 "date": pub_date,
                 "date_display": format_date(pub_date) if pub_date else "",
@@ -150,6 +200,22 @@ def fetch_bluesky_posts(section_cfg):
                 created = record.get("createdAt", "")
                 uri = post.get("uri", "")
 
+                # Extract avatar
+                author_info = post.get("author", {})
+                avatar_url = author_info.get("avatar", "")
+
+                # Extract embedded image
+                post_image = ""
+                embed = post.get("embed", {})
+                embed_type = embed.get("$type", "")
+                if embed_type == "app.bsky.embed.images#view":
+                    images = embed.get("images", [])
+                    if images:
+                        post_image = images[0].get("thumb", "") or images[0].get("fullsize", "")
+                elif embed_type == "app.bsky.embed.external#view":
+                    ext = embed.get("external", {})
+                    post_image = ext.get("thumb", "")
+
                 # Build web URL from AT URI
                 web_url = "#"
                 if uri.startswith("at://"):
@@ -171,6 +237,8 @@ def fetch_bluesky_posts(section_cfg):
                     "handle": handle,
                     "text": text,
                     "link": web_url,
+                    "image": post_image,
+                    "avatar": avatar_url,
                     "date": pub_date,
                     "date_display": format_date(pub_date) if pub_date else "",
                     "likes": post.get("likeCount", 0),
