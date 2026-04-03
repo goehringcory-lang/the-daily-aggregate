@@ -54,20 +54,69 @@
     },
 
     "yosemite_science": {
-      "title": "Yosemite & Sierra Nevada - Nature Science",
+      "title": "Yosemite & Sierra Nevada - Naturalist Science",
       "icon": "tree-pine",
       "feeds": [
+        {"name": "NPS - Yosemite News", "url": "https://www.nps.gov/feeds/getNewsRSS.htm?parkCode=yose"},
+        {"name": "NPS - Sequoia/Kings Canyon", "url": "https://www.nps.gov/feeds/getNewsRSS.htm?parkCode=seki"},
+        {"name": "NPS - Devils Postpile", "url": "https://www.nps.gov/feeds/getNewsRSS.htm?parkCode=depo"},
+        {"name": "ScienceDaily - Ecology", "url": "https://www.sciencedaily.com/rss/plants_animals/ecology.xml"},
+        {"name": "ScienceDaily - Endangered Species", "url": "https://www.sciencedaily.com/rss/plants_animals/endangered_animals.xml"},
+        {"name": "ScienceDaily - Forests", "url": "https://www.sciencedaily.com/rss/earth_climate/forests.xml"},
+        {"name": "ScienceDaily - Biodiversity", "url": "https://www.sciencedaily.com/rss/earth_climate/biodiversity.xml"},
+        {"name": "ScienceDaily - Wildfires", "url": "https://www.sciencedaily.com/rss/earth_climate/wildfires.xml"},
         {"name": "Nature - Ecology & Evolution", "url": "https://www.nature.com/natecolevol.rss"},
         {"name": "PLOS ONE - Ecology", "url": "https://journals.plos.org/plosone/feed/atom?subjectArea=Ecology"},
         {"name": "Conservation Biology", "url": "https://besjournals.onlinelibrary.wiley.com/feed/13652486/most-recent"},
-        {"name": "Journal of Ecology", "url": "https://besjournals.onlinelibrary.wiley.com/feed/13652745/most-recent"},
-        {"name": "NPS - Yosemite News", "url": "https://www.nps.gov/feeds/getNewsRSS.htm?parkCode=yose"}
+        {"name": "Journal of Wildlife Management", "url": "https://wildlife.onlinelibrary.wiley.com/feed/19372817/most-recent"},
+        {"name": "Western North American Naturalist", "url": "https://scholarsarchive.byu.edu/wnan/recent.rss"},
+        {"name": "Bay Nature", "url": "https://baynature.org/feed/"}
       ],
-      "keywords": ["yosemite", "sierra nevada", "sequoia", "alpine meadow", "black bear",
-                    "mule deer", "bighorn sheep", "pacific fisher", "great gray owl",
-                    "peregrine falcon", "california", "wildflower", "lichen", "conifer",
-                    "glacial", "meadow restoration", "fire ecology", "old growth"],
-      "max_items": 15
+      "keywords_required": true,
+      "keywords": [
+        "yosemite", "sierra nevada", "sierra nevadan", "sierran",
+        "sequoia", "giant sequoia", "sequoiadendron",
+        "tuolumne", "merced river", "mariposa grove", "hetch hetchy", "tioga",
+        "kings canyon", "mammoth lakes", "mammoth mountain", "mono lake", "devils postpile", "inyo",
+
+        "black bear", "ursus americanus", "mule deer", "odocoileus hemionus",
+        "sierra nevada bighorn sheep", "ovis canadensis sierrae",
+        "sierra nevada red fox", "vulpes vulpes necator",
+        "pacific fisher", "pekania pennanti", "american pika", "ochotona princeps",
+        "mountain lion", "puma concolor", "cougar",
+        "coyote", "bobcat", "marten", "pine marten", "wolverine",
+        "chickaree", "douglas squirrel", "golden-mantled ground squirrel",
+        "ringtail", "bassariscus",
+
+        "great gray owl", "strix nebulosa",
+        "peregrine falcon", "falco peregrinus",
+        "white-headed woodpecker", "black-backed woodpecker",
+        "mountain quail", "steller's jay", "clark's nutcracker",
+        "american dipper", "belted kingfisher", "bald eagle",
+        "spotted owl", "strix occidentalis", "great horned owl",
+        "golden eagle",
+
+        "mountain yellow-legged frog", "rana muscosa", "rana sierrae",
+        "yosemite toad", "anaxyrus canorus", "pacific treefrog",
+        "sierra garter snake", "mountain kingsnake",
+        "sierra newt",
+
+        "jeffrey pine", "ponderosa pine", "lodgepole pine", "sugar pine", "whitebark pine",
+        "incense cedar", "white fir", "red fir", "mountain hemlock",
+        "black oak", "canyon live oak", "valley oak",
+        "manzanita", "ceanothus", "lupine", "paintbrush",
+        "mariposa lily", "sierra primrose", "monkey flower", "columbine",
+        "leopard lily", "corn lily", "shooting star",
+        "buckwheat", "mountain pennyroyal", "meadow",
+
+        "fire ecology", "prescribed burn", "wildfire recovery", "post-fire",
+        "forest restoration", "meadow restoration", "old growth",
+        "bark beetle", "tree mortality",
+        "alpine ecosystem", "subalpine meadow", "montane forest", "montane meadow",
+        "sierra snowpack", "california snowpack",
+        "riparian restoration"
+      ],
+      "max_items": 20
     }
   }
 }

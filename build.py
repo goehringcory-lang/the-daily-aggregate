@@ -148,10 +148,15 @@ def fetch_section_feeds(section_cfg):
 
 
 def fetch_section_with_keywords(section_cfg):
-    """Fetch feeds, then boost items matching keywords."""
+    """Fetch feeds, then filter to only items matching keywords.
+
+    If keywords_required is true, articles MUST match at least one keyword
+    to be included. Otherwise, matching articles are boosted to the top.
+    """
     all_items = []
     feeds = section_cfg.get("feeds", [])
     keywords = [k.lower() for k in section_cfg.get("keywords", [])]
+    require_match = section_cfg.get("keywords_required", False)
 
     for feed_info in feeds:
         print(f"  Fetching: {feed_info['name']}...")
@@ -159,21 +164,37 @@ def fetch_section_with_keywords(section_cfg):
         all_items.extend(items)
         print(f"    Got {len(items)} items")
 
+    # Build regex patterns for whole-word keyword matching
+    keyword_patterns = [re.compile(r'\b' + re.escape(kw) + r'\b', re.IGNORECASE) for kw in keywords]
+
     # Score items by keyword relevance
     for item in all_items:
-        text = f"{item['title']} {item['summary']}".lower()
-        item["relevance"] = sum(1 for kw in keywords if kw in text)
+        text = f"{item['title']} {item['summary']}"
+        item["relevance"] = sum(1 for pat in keyword_patterns if pat.search(text))
 
-    # Sort: relevant items first (by relevance desc, then date), then non-relevant by date
-    relevant = [i for i in all_items if i["relevance"] > 0]
-    general = [i for i in all_items if i["relevance"] == 0]
-
-    relevant.sort(key=lambda x: (x["relevance"], x["date"] or datetime.min.replace(tzinfo=timezone.utc)), reverse=True)
-    general.sort(key=lambda x: x["date"] or datetime.min.replace(tzinfo=timezone.utc), reverse=True)
-
-    max_items = section_cfg.get("max_items", 15)
-    combined = relevant + general
-    return combined[:max_items]
+    if require_match:
+        # Only keep articles that match at least one keyword
+        matched = [i for i in all_items if i["relevance"] > 0]
+        matched.sort(key=lambda x: (x["relevance"], x["date"] or datetime.min.replace(tzinfo=timezone.utc)), reverse=True)
+        # Deduplicate by title (Google Scholar feeds may overlap)
+        seen_titles = set()
+        deduped = []
+        for item in matched:
+            title_key = item["title"].lower().strip()
+            if title_key not in seen_titles:
+                seen_titles.add(title_key)
+                deduped.append(item)
+        print(f"  Filtered: {len(deduped)} relevant articles from {len(all_items)} total")
+        max_items = section_cfg.get("max_items", 20)
+        return deduped[:max_items]
+    else:
+        relevant = [i for i in all_items if i["relevance"] > 0]
+        general = [i for i in all_items if i["relevance"] == 0]
+        relevant.sort(key=lambda x: (x["relevance"], x["date"] or datetime.min.replace(tzinfo=timezone.utc)), reverse=True)
+        general.sort(key=lambda x: x["date"] or datetime.min.replace(tzinfo=timezone.utc), reverse=True)
+        max_items = section_cfg.get("max_items", 15)
+        combined = relevant + general
+        return combined[:max_items]
 
 
 def fetch_bluesky_posts(section_cfg):
