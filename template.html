@@ -739,7 +739,7 @@
                             <span class="social-stat">&#9829; {{ post.likes }}</span>
                             <span class="social-stat">&#8635; {{ post.reposts }}</span>
                             <span>{{ post.date_display }}</span>
-                            <a href="{{ post.link }}" target="_blank" rel="noopener">View &rarr;</a>
+                            <a href="{{ post.link }}" target="_blank" rel="noopener">{% if post.platform == "x" %}View on X &rarr;{% else %}View on Bluesky &rarr;{% endif %}</a>
                         </div>
                     </div>
                 </div>

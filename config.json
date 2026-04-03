@@ -7,6 +7,7 @@
       "title": "AI News",
       "icon": "cpu",
       "feeds": [
+        {"name": "NYT - Technology", "url": "https://rss.nytimes.com/services/xml/rss/nyt/Technology.xml"},
         {"name": "MIT Technology Review - AI", "url": "https://www.technologyreview.com/feed/"},
         {"name": "The Verge - AI", "url": "https://www.theverge.com/rss/ai-artificial-intelligence/index.xml"},
         {"name": "Ars Technica - AI", "url": "https://feeds.arstechnica.com/arstechnica/technology-lab"},
@@ -20,6 +21,8 @@
       "title": "World News",
       "icon": "globe",
       "feeds": [
+        {"name": "NYT - World", "url": "https://rss.nytimes.com/services/xml/rss/nyt/World.xml"},
+        {"name": "NYT - U.S.", "url": "https://rss.nytimes.com/services/xml/rss/nyt/US.xml"},
         {"name": "BBC World", "url": "https://feeds.bbci.co.uk/news/world/rss.xml"},
         {"name": "The Guardian - World", "url": "https://www.theguardian.com/world/rss"},
         {"name": "NPR News", "url": "https://feeds.npr.org/1001/rss.xml"},
@@ -58,7 +61,18 @@
         {"name": "Ethan Mollick", "handle": "emollick.bsky.social", "category": "commentator"}
       ],
       "max_posts_per_person": 5,
-      "max_age_days": 30
+      "max_age_days": 30,
+      "x_handles": [
+        {"name": "Sam Altman", "handle": "sama", "category": "leader"},
+        {"name": "Dario Amodei", "handle": "DarioAmodei", "category": "leader"},
+        {"name": "Jensen Huang", "handle": "JensenHuang", "category": "leader"},
+        {"name": "Andrej Karpathy", "handle": "karpathy", "category": "leader"},
+        {"name": "Jim Fan", "handle": "DrJimFan", "category": "leader"},
+        {"name": "Anthropic", "handle": "AnthropicAI", "category": "lab"},
+        {"name": "OpenAI", "handle": "OpenAI", "category": "lab"},
+        {"name": "Google DeepMind", "handle": "GoogleDeepMind", "category": "lab"},
+        {"name": "NVIDIA AI", "handle": "NVIDIAAIDev", "category": "lab"}
+      ]
     },
 
     "yosemite_science": {

@@ -24,8 +24,9 @@ TEMPLATE_PATH = Path(__file__).parent / "template.html"
 OUTPUT_PATH = Path(__file__).parent / "index.html"
 
 REQUEST_TIMEOUT = 15
-USER_AGENT = "TheDailyAggregate/1.0 (Personal News Aggregator)"
+USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
 BLUESKY_API = "https://public.api.bsky.app/xrpc"
+NITTER_INSTANCE = "https://nitter.net"
 
 
 def load_config():
@@ -289,6 +290,7 @@ def fetch_bluesky_posts(section_cfg):
                     "author": name,
                     "handle": handle,
                     "category": category,
+                    "platform": "bluesky",
                     "text": text,
                     "link": web_url,
                     "image": post_image,
@@ -297,6 +299,102 @@ def fetch_bluesky_posts(section_cfg):
                     "date_display": format_date(pub_date) if pub_date else "",
                     "likes": post.get("likeCount", 0),
                     "reposts": post.get("repostCount", 0),
+                })
+                person_posts += 1
+            print(f"    Got {person_posts} posts (after filtering)")
+        except Exception as e:
+            print(f"    [WARN] Failed for @{handle}: {e}")
+
+    all_posts.sort(key=lambda x: x["date"] or datetime.min.replace(tzinfo=timezone.utc), reverse=True)
+    return all_posts
+
+
+def fetch_x_posts(section_cfg):
+    """Fetch recent X/Twitter posts via Nitter RSS."""
+    accounts = section_cfg.get("x_handles", [])
+    max_per = section_cfg.get("max_posts_per_person", 5)
+    max_age_days = section_cfg.get("max_age_days", 30)
+    cutoff = datetime.now(timezone.utc) - timedelta(days=max_age_days)
+    all_posts = []
+
+    for person in accounts:
+        handle = person["handle"]
+        name = person["name"]
+        category = person.get("category", "leader")
+        print(f"  Fetching X: @{handle}...")
+        try:
+            url = f"{NITTER_INSTANCE}/{handle}/rss"
+            resp = requests.get(url, timeout=REQUEST_TIMEOUT, headers={"User-Agent": USER_AGENT})
+            resp.raise_for_status()
+            parsed = feedparser.parse(resp.content)
+
+            person_posts = 0
+            for entry in parsed.entries:
+                if person_posts >= max_per:
+                    break
+
+                title = getattr(entry, "title", "") or ""
+                # Skip retweets
+                if title.startswith("RT by @"):
+                    continue
+                # Skip replies
+                if title.startswith("R to @"):
+                    continue
+
+                text = re.sub(r"<[^>]+>", "", getattr(entry, "description", "") or "").strip()
+                if not text or len(text) < 15:
+                    continue
+
+                if not is_likely_english(text):
+                    continue
+
+                pub_date = None
+                for date_field in ("published_parsed", "updated_parsed"):
+                    t = getattr(entry, date_field, None)
+                    if t:
+                        try:
+                            pub_date = datetime(*t[:6], tzinfo=timezone.utc)
+                        except Exception:
+                            pass
+                        break
+
+                if pub_date and pub_date < cutoff:
+                    continue
+
+                # Truncate long text
+                if len(text) > 500:
+                    text = text[:497] + "..."
+
+                # Extract image from description HTML
+                desc_html = getattr(entry, "description", "") or ""
+                img_match = re.search(r'<img[^>]+src=["\']([^"\']+)["\']', desc_html)
+                post_image = ""
+                if img_match:
+                    img_url = img_match.group(1)
+                    # Convert nitter image proxy URLs to Twitter CDN
+                    if "/pic/" in img_url:
+                        img_path = img_url.split("/pic/")[-1]
+                        post_image = f"https://{img_path}"
+                    elif img_url.startswith("http"):
+                        post_image = img_url
+
+                # Build link to original tweet
+                link = getattr(entry, "link", "#")
+                link = link.replace(NITTER_INSTANCE, "https://x.com")
+
+                all_posts.append({
+                    "author": name,
+                    "handle": handle,
+                    "category": category,
+                    "platform": "x",
+                    "text": text,
+                    "link": link,
+                    "image": post_image,
+                    "avatar": "",
+                    "date": pub_date,
+                    "date_display": format_date(pub_date) if pub_date else "",
+                    "likes": 0,
+                    "reposts": 0,
                 })
                 person_posts += 1
             print(f"    Got {person_posts} posts (after filtering)")
@@ -341,9 +439,15 @@ def build():
     print("\n[Liverpool FC]")
     data["liverpool"] = fetch_section_feeds(sections["liverpool"])
 
-    # Fetch AI Leaders Social
-    print("\n[AI Leaders - Social]")
-    data["ai_leaders_social"] = fetch_bluesky_posts(sections["ai_leaders_social"])
+    # Fetch AI Leaders Social (Bluesky + X/Twitter)
+    print("\n[AI Leaders - Bluesky]")
+    bluesky_posts = fetch_bluesky_posts(sections["ai_leaders_social"])
+    print("\n[AI Leaders - X/Twitter]")
+    x_posts = fetch_x_posts(sections["ai_leaders_social"])
+    # Merge and sort by date
+    all_social = bluesky_posts + x_posts
+    all_social.sort(key=lambda x: x["date"] or datetime.min.replace(tzinfo=timezone.utc), reverse=True)
+    data["ai_leaders_social"] = all_social
 
     # Fetch Yosemite Science
     print("\n[Yosemite & Sierra Nevada Science]")
